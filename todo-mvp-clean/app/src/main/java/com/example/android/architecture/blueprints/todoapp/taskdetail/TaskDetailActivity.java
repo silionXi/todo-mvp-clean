@@ -51,6 +51,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         // Get the requested task id
         String taskId = getIntent().getStringExtra(EXTRA_TASK_ID);
 
+        /** silion_comment: 创建fragment **/
         TaskDetailFragment taskDetailFragment = (TaskDetailFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
@@ -61,6 +62,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     taskDetailFragment, R.id.contentFrame);
         }
 
+        /** silion_comment: 创建presenter */
         // Create the presenter
         new TaskDetailPresenter(
                 Injection.provideUseCaseHandler(),

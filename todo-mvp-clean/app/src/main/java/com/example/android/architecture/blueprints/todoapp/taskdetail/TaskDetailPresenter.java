@@ -46,6 +46,17 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
     @Nullable
     private String mTaskId;
 
+    /**
+     * silion_comment: 创建Presenter
+     * UseCaseHandler: useCaseHandler
+     * View: taskDetailFragment
+     * UserCase: getTask
+     * UserCase: completeTask
+     * UserCase: activateTask
+     * UserCase: deleteTask
+     *
+     * 这些UserCase都持有TasksRepository(Module)
+     */
     public TaskDetailPresenter(@NonNull UseCaseHandler useCaseHandler,
             @Nullable String taskId,
             @NonNull TaskDetailContract.View taskDetailView,
