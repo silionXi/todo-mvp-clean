@@ -108,19 +108,19 @@ public class TasksPresenterTest {
     public void loadAllTasksFromRepositoryAndLoadIntoView() {
         // Given an initialized TasksPresenter with initialized tasks
         // When loading of Tasks is requested
-        mTasksPresenter.setFiltering(TasksFilterType.ALL_TASKS);
-        mTasksPresenter.loadTasks(true);
+        mTasksPresenter.setFiltering(TasksFilterType.ALL_TASKS);//设置当前视图是All视图
+        mTasksPresenter.loadTasks(true);//第0步：开始加载数据
 
         // Callback is captured and invoked with stubbed tasks
-        verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(TASKS);
+        verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());//验证获取数据方法被执行，并且捕获回调参数
+        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(TASKS);//回调参数执行回调
 
         // Then progress indicator is shown
-        InOrder inOrder = inOrder(mTasksView);
-        inOrder.verify(mTasksView).setLoadingIndicator(true);
+        InOrder inOrder = inOrder(mTasksView);//为mock的 mTasksView 对象创建验证执行顺序对象 InOrder
+        inOrder.verify(mTasksView).setLoadingIndicator(true);//验证(true)被执行
         // Then progress indicator is hidden and all tasks are shown in UI
-        inOrder.verify(mTasksView).setLoadingIndicator(false);
-        ArgumentCaptor<List> showTasksArgumentCaptor = ArgumentCaptor.forClass(List.class);
+        inOrder.verify(mTasksView).setLoadingIndicator(false);//验证(false)在(true)之后被执行
+        ArgumentCaptor<List> showTasksArgumentCaptor = ArgumentCaptor.forClass(List.class);//创建List.class的捕获参数对象
         verify(mTasksView).showTasks(showTasksArgumentCaptor.capture());
         assertTrue(showTasksArgumentCaptor.getValue().size() == 3);
     }

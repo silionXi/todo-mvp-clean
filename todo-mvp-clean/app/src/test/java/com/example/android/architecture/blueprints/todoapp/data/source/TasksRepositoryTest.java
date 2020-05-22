@@ -56,8 +56,8 @@ public class TasksRepositoryTest {
 
     private TasksRepository mTasksRepository;
 
-    @Mock
-    private TasksDataSource mTasksRemoteDataSource;
+    @Mock //mock创建对象？
+    private TasksDataSource mTasksRemoteDataSource;/** 作为 TasksRepository#mTasksRemoteDataSource 参数**/
 
     @Mock
     private TasksDataSource mTasksLocalDataSource;
@@ -266,18 +266,18 @@ public class TasksRepositoryTest {
         assertThat(mTasksRepository.mCachedTasks.containsKey(newTask.getId()), is(false));
     }
 
-    @Test
+    @Test //@Test public void method() 定义所在方法为单元测试方法
     public void getTasksWithDirtyCache_tasksAreRetrievedFromRemote() {
         // When calling getTasks in the repository with dirty cache
-        mTasksRepository.refreshTasks();
-        mTasksRepository.getTasks(mLoadTasksCallback);
+        mTasksRepository.refreshTasks();//设置缓存不可用
+        mTasksRepository.getTasks(mLoadTasksCallback);//获取数据，因为设置了缓存不可用，因此从网络获取
 
         // And the remote data source has data available
-        setTasksAvailable(mTasksRemoteDataSource, TASKS);
+        setTasksAvailable(mTasksRemoteDataSource, TASKS);//验证从网络获取数据被执行：用TasksRemoteDataSource（网络）调用getTasks()获取数据后返回
 
         // Verify the tasks from the remote data source are returned, not the local
-        verify(mTasksLocalDataSource, never()).getTasks(mLoadTasksCallback);
-        verify(mLoadTasksCallback).onTasksLoaded(TASKS);
+        verify(mTasksLocalDataSource, never()).getTasks(mLoadTasksCallback);//验证从本地缓存获取数据没有被执行
+        verify(mLoadTasksCallback).onTasksLoaded(TASKS);//验证从网络获取数据执行了回调函数
     }
 
     @Test
@@ -372,8 +372,8 @@ public class TasksRepositoryTest {
     }
 
     private void setTasksAvailable(TasksDataSource dataSource, List<Task> tasks) {
-        verify(dataSource).getTasks(mTasksCallbackCaptor.capture());
-        mTasksCallbackCaptor.getValue().onTasksLoaded(tasks);
+        verify(dataSource).getTasks(mTasksCallbackCaptor.capture());//验证TasksDataSource调用getTasks行为，并且使用mTasksCallbackCaptor捕获回调参数
+        mTasksCallbackCaptor.getValue().onTasksLoaded(tasks);//获取回调参数执行回调
     }
 
     private void setTaskNotAvailable(TasksDataSource dataSource, String taskId) {
